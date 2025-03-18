@@ -20,28 +20,28 @@ public class ContatoController {
         return service.listarTodos();
     }
 
-    @GetMapping("/{id}")
-    public Optional<Contato> buscarPorId(@PathVariable Long id) {
-        return service.buscarPorId(id);
-    }
+//    @GetMapping("/{id}")
+//    public Optional<Contato> buscarPorId(@PathVariable Long id) {
+//        return service.buscarPorId(id);
+//    }
 
     @PostMapping
     public Contato salvar(@RequestBody Contato contato) {
         return service.salvar(contato);
     }
 
-    @PutMapping("/{id}")
-    public Contato atualizar(@PathVariable Long id, @RequestBody Contato contato) {
-        return service.atualizar(id, contato);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
-        service.deletar(id);
-    }
-
-    @PutMapping("/desativar/{id}")
-    public void desativar(@PathVariable Long id) {
-        service.desativar(id);
-    }
+//    @PutMapping("/{id}")
+//    public Contato atualizar(@PathVariable Long id, @RequestBody Contato contato) {
+//        return service.atualizar(id, contato);
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public void deletar(@PathVariable Long id) {
+//        service.deletar(id);
+//    }
+//
+//    @PutMapping("/desativar/{id}")
+//    public void desativar(@PathVariable Long id) {
+//        service.desativar(id);
+//    }
 }

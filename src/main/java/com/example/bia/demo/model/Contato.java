@@ -1,18 +1,18 @@
 package com.example.bia.demo.model;
 
-import jakarta.persistence.*;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
-@Entity
+//@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Contato {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
