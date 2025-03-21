@@ -3,44 +3,60 @@ package com.example.bia.demo.service;
 import com.example.bia.demo.model.Contato;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ContatoService {
-
     private List<Contato> contatos = new ArrayList<>();
+    private Long contadorId = 1L;
 
     public List<Contato> listarTodos() {
-        contatos.add(new Contato());
         return contatos;
     }
 
-//    public Optional<Contato> buscarPorId(Long id) {
-//        return repository.findById(id);
-//    }
+    public Map<Character, List<Contato>> listarAgrupadoPorLetra() {
+        return contatos.stream()
+                .filter(c -> c.getNome() != null && !c.getNome().isEmpty())
+                .sorted(Comparator.comparing(Contato::getNome))
+                .collect(Collectors.groupingBy(c -> Character.toUpperCase(c.getNome().charAt(0))));
+    }
+
+    public Optional<Contato> buscarPorId(Long id) {
+        return contatos.stream().filter(c -> c.getId().equals(id)).findFirst();
+    }
 
     public Contato salvar(Contato contato) {
+        contato.setId(contadorId++);
+        contato.setSnAtivo("S");
         contatos.add(contato);
         return contato;
     }
 
-//    public Contato atualizar(Long id, Contato contato) {
-//        contato.setId(id);
-//        return repository.save(contato);
-//    }
-//
-//    public void deletar(Long id) {
-//        repository.deleteById(id);
-//    }
+    public Optional<Contato> atualizar(Long id, Contato novoContato) {
+        return buscarPorId(id).map(contato -> {
+            contato.setNome(novoContato.getNome());
+            contato.setEmail(novoContato.getEmail());
+            contato.setTelefone(novoContato.getTelefone());
+            return contato;
+        });
+    }
 
-//    public void desativar(Long id) {
-//        Optional<Contato> contatoOpt = repository.findById(id);
-//        if (contatoOpt.isPresent()) {
-//            Contato contato = contatoOpt.get();
-//            contato.setSnAtivo("N");  // Supondo que você tenha um método setSnAtivo
-//            repository.save(contato);
-//        }
-//    }
+    public boolean deletar(Long id) {
+        return contatos.removeIf(c -> c.getId().equals(id));
+    }
+
+    public Optional<Contato> desativar(Long id) {
+        return buscarPorId(id).map(contato -> {
+            contato.setSnAtivo("N");
+            return contato;
+        });
+    }
+
+    public Optional<Contato> favoritar(Long id) {
+        return buscarPorId(id).map(contato -> {
+            contato.setSnAtivo("F");
+            return contato;
+        });
+    }
 }
